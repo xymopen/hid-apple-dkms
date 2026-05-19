@@ -370,14 +370,27 @@ static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
 	{ "2.4G Wireless Receiver" },	/* EPOMAKER TH87 dongle */
 };
 
+static const struct apple_non_apple_keyboard non_apple_keyboards_suffix[] = {
+	{ "Lofree" },
+};
+
 static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
 {
 	int i;
+	int len = strlen(hdev->name);
 
 	for (i = 0; i < ARRAY_SIZE(non_apple_keyboards); i++) {
 		char *non_apple = non_apple_keyboards[i].name;
 
 		if (strncmp(hdev->name, non_apple, strlen(non_apple)) == 0)
+			return true;
+	}
+
+	for (i = 0; i < ARRAY_SIZE(non_apple_keyboards_suffix); i++) {
+		char *non_apple = non_apple_keyboards_suffix[i].name;
+		int non_apple_len = strlen(non_apple);
+
+		if (len >= non_apple_len && strncmp(hdev->name + len - non_apple_len, non_apple, non_apple_len) == 0)
 			return true;
 	}
 
