@@ -1,4 +1,5 @@
-obj-m += hid-apple.o
+obj-m += hid-apple-dkms.o
+hid-apple-dkms-objs := hid-apple.o
 
 PWD := $(CURDIR)
 
